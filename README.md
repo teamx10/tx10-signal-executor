@@ -1,8 +1,8 @@
 # tx10-signal-executor
 
-[➡️ Installation](#-installation) • [📌 Usage](#-usage-guide) • [🐛 Issues](#-support--bugs)
+[➡️ Installation](#-installation) • [📌 Usage](#-usage-guide) • [💸 Donate](#-donate) • [🐛 Issues](#-support--bugs)
 
-Chrome Extension that parses trading signals (ENTRY/SL/TP/RISK), calculates position size and TP levels, and automatically fills the order form on supported prop‑trading platforms (HashHedge & BitFunded).
+Chrome Extension that parses trading signals (ENTRY/SL/TP/RISK), calculates position size and TP levels, and automatically fills the order form on supported prop-trading platforms (HashHedge & BitFunded).
 
 ---
 
@@ -25,7 +25,7 @@ cd tx10-signal-executor
 4. Select the folder of the repository
 5. Pin the extension to the toolbar (click the puzzle icon → pin)
 
-### 🔹 B) For Non‑Developers (Releases)
+### 🔹 B) For Non-Developers (Releases)
 
 If you don’t use git:
 
@@ -64,7 +64,6 @@ RISK=0.75
 <img src="./docs/screenshot-signal.png" width="320"/>
 
 ### 2️⃣ Convert screenshot → text
-
 Use ChatGPT, Claude, Gemini or any OCR tool.
 
 ### 3️⃣ Copy the extracted text
@@ -86,7 +85,7 @@ Example: BTCUSDT Perpetual
 
 Pin the extension to Chrome toolbar to make it always visible.
 
-### 7️⃣ Verify auto‑detected balance & leverage
+### 7️⃣ Verify auto-detected balance & leverage
 
 The extension extracts your balance and leverage from the page automatically.
 
@@ -97,7 +96,7 @@ TOTAL_BALANCE=10003.27
 LEVERAGE=5
 ```
 
-Make sure the values match your current trading account.
+Make sure the values match your trading account.
 
 ### 8️⃣ Paste the signal data
 
@@ -107,10 +106,10 @@ Paste text from AI into the field.
 
 The extension will:
 
-- calculate position size
-- calculate RR and winrate proxy
-- calculate TP1/2/3
-- auto‑fill the order form fields
+- calculate position size  
+- calculate RR and winrate proxy  
+- calculate TP1/2/3  
+- auto-fill the order form fields  
 
 <img src="./docs/screenshot-result.png" width="600"/>
 
@@ -136,9 +135,20 @@ DIRECTION=LONG
 
 ---
 
-## 🛠️ Development
+## 💸 Donate
 
-Make changes locally and reload extension in Chrome.
+If this extension saves you time and earns money — you can support development 🙌
+
+**USDT (TRC20)**  
+`TMLx6B6y7ZPBPFxS7DWrvj9nfyqeBEBrkZ`
+
+**ETH**  
+`0xcc2e9a1a24af605eb73f641477c2d21198cb9b5f`
+
+**SOL**  
+`9PhnJeSMfstkimFuwc3Bs4UGzEepEjGMnm2QZTq7WZWw`
+
+Any donation motivates future updates ❤️
 
 ---
 
@@ -151,7 +161,8 @@ https://github.com/teamx10/tx10-signal-executor/issues
 
 or
 
-2. Write directly to me on Telegram: **@sharkich**
+2. Message me directly on Telegram:  
+👉 https://t.me/sharkich
 
 Feedback and ideas are welcome 🤝
 
