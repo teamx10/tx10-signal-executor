@@ -1,5 +1,7 @@
 # tx10-signal-executor
 
+**English** • [Русский](README.ru.md) • [Українська](README.ua.md)
+
 [➡️ Installation](#-installation) • [📌 Usage](#-usage-guide) • [💸 Donate](#-donate) • [🐛 Issues](#-support--bugs)
 
 Chrome Extension that parses trading signals (ENTRY/SL/TP/RISK), calculates position size and TP levels, and automatically fills the order form on supported prop-trading platforms (HashHedge & BitFunded).
