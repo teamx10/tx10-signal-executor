@@ -1,5 +1,7 @@
 # tx10-signal-executor
 
+[➡️ Installation](#-installation) • [📌 Usage](#-usage-guide) • [🐛 Issues](#-support--bugs)
+
 Chrome Extension that parses trading signals (ENTRY/SL/TP/RISK), calculates position size and TP levels, and automatically fills the order form on supported prop‑trading platforms (HashHedge & BitFunded).
 
 ---
@@ -8,7 +10,9 @@ Chrome Extension that parses trading signals (ENTRY/SL/TP/RISK), calculates posi
 
 You can install the extension in two ways:
 
-### A) Clone from GitHub
+### 🔹 A) For Developers (Git)
+
+If you know how to use git — this is the recommended way:
 
 ```bash
 git clone https://github.com/teamx10/tx10-signal-executor
@@ -21,7 +25,9 @@ cd tx10-signal-executor
 4. Select the folder of the repository
 5. Pin the extension to the toolbar (click the puzzle icon → pin)
 
-### B) Download from Releases
+### 🔹 B) For Non‑Developers (Releases)
+
+If you don’t use git:
 
 1. Download the latest `.zip` archive here:  
 https://github.com/teamx10/tx10-signal-executor/releases
@@ -36,7 +42,7 @@ https://github.com/teamx10/tx10-signal-executor/releases
 
 ## 📌 Usage Guide
 
-### 0. Use AI to extract the signal data
+### 0️⃣ Use AI to extract the signal data
 
 Train ChatGPT (or any AI) to read screenshots and convert them to text.
 
@@ -53,29 +59,34 @@ SL=90670
 RISK=0.75
 ```
 
-### 1. Take a screenshot of the Telegram signal  
-Make sure all values are clear on the screenshot.
+### 1️⃣ Make a screenshot of the Telegram signal
 
-### 2. Convert screenshot → text  
+<img src="./docs/screenshot-signal.png" width="320"/>
+
+### 2️⃣ Convert screenshot → text
+
 Use ChatGPT, Claude, Gemini or any OCR tool.
 
-### 3. Copy the extracted text
+### 3️⃣ Copy the extracted text
 
-### 4. Open the trading page
+### 4️⃣ Open trading page
 
 Supported platforms:
 
 - https://www.hashhedge.com/client/trade
 - https://trader.bitfunded.com/client/trade
 
-### 5. Check that the correct coin is selected  
+### 5️⃣ Check selected coin
+
 Example: BTCUSDT Perpetual
 
-### 6. Open the extension
+### 6️⃣ Open the extension
 
-Click the pinned icon in the Chrome toolbar.
+<img src="./docs/screenshot-balance.png" width="600"/>
 
-### 7. Verify auto‑detected balance and leverage
+Pin the extension to Chrome toolbar to make it always visible.
+
+### 7️⃣ Verify auto‑detected balance & leverage
 
 The extension extracts your balance and leverage from the page automatically.
 
@@ -88,11 +99,12 @@ LEVERAGE=5
 
 Make sure the values match your current trading account.
 
-### 8. Paste the signal data
+### 8️⃣ Paste the signal data
 
-Paste the extracted text from AI into the input field.
+Paste text from AI into the field.
 
-### 9. Click **Fill**  
+### 9️⃣ Click **Fill** and verify
+
 The extension will:
 
 - calculate position size
@@ -100,9 +112,12 @@ The extension will:
 - calculate TP1/2/3
 - auto‑fill the order form fields
 
-Verify all fields are correct before submitting.
+<img src="./docs/screenshot-result.png" width="600"/>
 
-### 10. Place your order 🎯  
+Verify all fields before trading.
+
+### 🔟 Place your order 🎯
+
 Once everything is correct — place the order.
 
 ---
@@ -121,21 +136,24 @@ DIRECTION=LONG
 
 ---
 
-## ✔️ Supported Features
-
-- Parse text signals (`KEY=VALUE` format)
-- Auto‑parse balance and leverage from the UI
-- R/R and winrate proxy
-- TP1 TP2 TP3 based on R values
-- Auto‑fill order form
-- Copy calculated metrics
-- Uses safe event‑based input typing
-
----
-
 ## 🛠️ Development
 
 Make changes locally and reload extension in Chrome.
+
+---
+
+## 🐛 Support & Bugs
+
+If you find bugs — please:
+
+1. Create an issue here:  
+https://github.com/teamx10/tx10-signal-executor/issues
+
+or
+
+2. Write directly to me on Telegram: **@sharkich**
+
+Feedback and ideas are welcome 🤝
 
 ---
 
