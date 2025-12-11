@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <title>Signal Executor</title>
     <style>
         body {
@@ -35,9 +36,22 @@
             margin-top: 0;
         }
 
-        .fill-button {
-            flex: 1;
+        .calculate-button {
+            flex: 0 0 calc(35% - 6px);
             width: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .fill-button {
+            flex: 0 0 calc(35% - 6px);
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
         }
 
         #fill-results {
@@ -61,35 +75,59 @@
         }
 
         #copy-results {
+            flex: 0 0 calc(30% - 4px);
             width: auto;
-            padding: 4px 8px;
-            font-size: 12px;
-            margin-top: 0;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 4px;
         }
 
         .hidden {
             display: none;
         }
+
+        .repo-link {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .repo-link a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .repo-link a:hover {
+            color: #333;
+            text-decoration: underline;
+        }
     </style>
 </head>
+
 <body>
-<div class="hidden" id="unsupported">
-    Signal Executor only works on https://www.hashhedge.com/client/trade
-</div>
-<form class="hidden" id="trade-form">
-    <label for="trade-input">Enter request:</label>
-    <textarea id="trade-input" placeholder="..." rows="12"></textarea>
-    <div class="actions-row">
-        <button class="fill-button" type="submit">Fill</button>
-        <button class="copy-button hidden" id="copy-results" title="Copy results" type="button">📋 Copy</button>
+    <div class="hidden" id="unsupported">
+        Signal Executor only works on https://www.hashhedge.com/client/trade
     </div>
-    <div class="hidden" id="fill-results">
-        <pre id="fill-results-content"></pre>
+    <form class="hidden" id="trade-form">
+        <label for="trade-input">Enter request:</label>
+        <textarea id="trade-input" placeholder="..." rows="12"></textarea>
+        <div class="actions-row">
+            <button class="calculate-button" type="button" disabled id="calculate-btn">🧮 Calculate</button>
+            <button class="fill-button" type="button" disabled id="fill-btn">⚡ Fill</button>
+            <button class="copy-button" id="copy-results" title="Copy results" type="button" disabled>📋 Copy</button>
+        </div>
+        <div class="hidden" id="fill-results">
+            <pre id="fill-results-content"></pre>
+        </div>
+    </form>
+    <div class="repo-link">
+        <a href="https://github.com/teamx10/tx10-signal-executor" target="_blank" rel="noopener noreferrer">GitHub
+            Repository</a>
     </div>
-</form>
-<script src="popup.js"></script>
+    <script src="popup.js"></script>
 </body>
+
 </html>

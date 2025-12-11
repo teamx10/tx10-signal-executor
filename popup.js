@@ -10,6 +10,8 @@ const elements = {
     results: document.getElementById('fill-results'),
     resultsContent: document.getElementById('fill-results-content'),
     copyResultsButton: document.getElementById('copy-results'),
+    calculateButton: document.getElementById('calculate-btn'),
+    fillButton: document.getElementById('fill-btn'),
 };
 
 const state = {
@@ -18,6 +20,7 @@ const state = {
         totalBalance: null,
         leverage: 1,
     },
+    lastCalculatedPayload: null,
 };
 
 const DEMO = ``;
@@ -81,14 +84,14 @@ function calculateTPLevels(input, options = {}) {
     const priceByR = (r) => round(entry + sign * r * rDistanceRaw);
 
     if (rrFullRaw < 1) {
-        levels.push({key: 'tp1', r: rrFullRaw, price: round(tp)});
+        levels.push({ key: 'tp1', r: rrFullRaw, price: round(tp) });
     } else if (rrFullRaw < 2) {
-        levels.push({key: 'tp1', r: 1, price: priceByR(1)});
-        levels.push({key: 'tp2', r: rrFullRaw, price: round(tp)});
+        levels.push({ key: 'tp1', r: 1, price: priceByR(1) });
+        levels.push({ key: 'tp2', r: rrFullRaw, price: round(tp) });
     } else {
-        levels.push({key: 'tp1', r: 1, price: priceByR(1)});
-        levels.push({key: 'tp2', r: 2, price: priceByR(2)});
-        levels.push({key: 'tp3', r: rrFullRaw, price: round(tp)});
+        levels.push({ key: 'tp1', r: 1, price: priceByR(1) });
+        levels.push({ key: 'tp2', r: 2, price: priceByR(2) });
+        levels.push({ key: 'tp3', r: rrFullRaw, price: round(tp) });
     }
 
     const getLevelPrice = (key) => {
@@ -97,9 +100,9 @@ function calculateTPLevels(input, options = {}) {
     };
 
     const profiles = {
-        'prop-conservative': {tp1: 50, tp2: 30, tp3: 20},
-        balanced: {tp1: 30, tp2: 40, tp3: 30},
-        aggressive: {tp1: 20, tp2: 30, tp3: 50},
+        'prop-conservative': { tp1: 50, tp2: 30, tp3: 20 },
+        balanced: { tp1: 30, tp2: 40, tp3: 30 },
+        aggressive: { tp1: 20, tp2: 30, tp3: 50 },
     };
 
     let distribution = profiles[profile] || profiles['prop-conservative'];
@@ -108,7 +111,7 @@ function calculateTPLevels(input, options = {}) {
     const tp2 = getLevelPrice('tp2');
     const tp3 = getLevelPrice('tp3');
 
-    const exists = {tp1: !!tp1, tp2: !!tp2, tp3: !!tp3};
+    const exists = { tp1: !!tp1, tp2: !!tp2, tp3: !!tp3 };
     const sum = (exists.tp1 ? distribution.tp1 : 0)
         + (exists.tp2 ? distribution.tp2 : 0)
         + (exists.tp3 ? distribution.tp3 : 0);
@@ -159,7 +162,7 @@ const calculatePositionAmount = (totalBalance, riskPercent, entryPrice, stopLoss
     const safeLeverage = Number.isFinite(leverage) && leverage > 0 ? leverage : 1;
 
     if (!Number.isFinite(riskAmount) || !Number.isFinite(distanceAmount) || distanceAmount === 0) {
-        return {amount: null, riskAmount: null, distanceAmount: null, positionAmount: null};
+        return { amount: null, riskAmount: null, distanceAmount: null, positionAmount: null };
     }
 
     const positionAmount = (riskAmount * entryPrice) / distanceAmount;
@@ -218,8 +221,8 @@ const getPositionDetailsFromData = (data, leverageFromContext = 1) => {
 
     const riskReward =
         Number.isFinite(distanceToTpValue) &&
-        Number.isFinite(result.distanceAmount) &&
-        result.distanceAmount !== 0
+            Number.isFinite(result.distanceAmount) &&
+            result.distanceAmount !== 0
             ? roundValue(distanceToTpValue / result.distanceAmount)
             : null;
 
@@ -277,11 +280,11 @@ const getPositionDetailsFromData = (data, leverageFromContext = 1) => {
 
             let expectedRange;
             if (riskReward < 1.8) {
-                expectedRange = {min: 0.25, max: 0.25};
+                expectedRange = { min: 0.25, max: 0.25 };
             } else if (riskReward <= 2.2) {
-                expectedRange = {min: 0.5, max: 0.5};
+                expectedRange = { min: 0.5, max: 0.5 };
             } else {
-                expectedRange = {min: 0.5, max: 0.75};
+                expectedRange = { min: 0.5, max: 0.75 };
             }
 
             const isWithinRange = riskPercent >= expectedRange.min && riskPercent <= expectedRange.max;
@@ -334,13 +337,12 @@ const escapeHtml = (value) =>
 
 const ResultRenderer = (() => {
     const hide = () => {
-        if (!elements.results || !elements.resultsContent || !elements.copyResultsButton) {
+        if (!elements.results || !elements.resultsContent) {
             return;
         }
         elements.resultsContent.textContent = '';
         elements.resultsContent.dataset.plaintext = '';
         elements.results.classList.add('hidden');
-        elements.copyResultsButton.classList.add('hidden');
     };
 
     const formatValue = (value) => (Number.isFinite(value) ? value : 'N/A');
@@ -348,10 +350,10 @@ const ResultRenderer = (() => {
 
     const buildRiskLine = (riskValidation) => {
         if (!riskValidation) {
-            return {html: null, plain: null};
+            return { html: null, plain: null };
         }
 
-        const {value, isWithinRange, expectedRange} = riskValidation;
+        const { value, isWithinRange, expectedRange } = riskValidation;
         const expectedText = expectedRange
             ? expectedRange.min === expectedRange.max
                 ? `${expectedRange.min}%`
@@ -422,10 +424,9 @@ const ResultRenderer = (() => {
         elements.resultsContent.dataset.plaintext = plainLines.join('\n');
         elements.resultsContent.innerHTML = htmlLines.join('<br/>');
         elements.results.classList.remove('hidden');
-        elements.copyResultsButton.classList.remove('hidden');
     };
 
-    return {render};
+    return { render };
 })();
 
 const parseSignalMessage = (message) =>
@@ -464,7 +465,7 @@ const matchesAllowedPage = (urlString) => {
     }
 };
 
-const setVisibility = ({isSupported}) => {
+const setVisibility = ({ isSupported }) => {
     if (!elements.form || !elements.unsupported) {
         return;
     }
@@ -479,14 +480,14 @@ const setVisibility = ({isSupported}) => {
 };
 
 const ChromeBridge = {
-    run(func, args = [], onSuccess = () => {}, errorLabel = 'Script execution failed') {
+    run(func, args = [], onSuccess = () => { }, errorLabel = 'Script execution failed') {
         if (!state.currentTabId) {
             return;
         }
 
         chrome.scripting.executeScript(
             {
-                target: {tabId: state.currentTabId, allFrames: true},
+                target: { tabId: state.currentTabId, allFrames: true },
                 func,
                 args,
             },
@@ -541,7 +542,7 @@ function extractAssetValuesFromPage() {
         stopsCheckbox.click();
     }
 
-    return {totalBalance, leverage};
+    return { totalBalance, leverage };
 }
 
 function fillTradeInputsInPage(data) {
@@ -561,8 +562,8 @@ function fillTradeInputsInPage(data) {
         }
 
         input.value = nextValue;
-        input.dispatchEvent(new Event('input', {bubbles: true}));
-        input.dispatchEvent(new Event('change', {bubbles: true}));
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
         return true;
     };
 
@@ -604,7 +605,7 @@ function fillTradeInputsInPage(data) {
         } else {
             input.value = '';
         }
-        input.dispatchEvent(new Event('input', {bubbles: true}));
+        input.dispatchEvent(new Event('input', { bubbles: true }));
 
         for (const char of nextValue) {
             dispatchKeyboardEvent('keydown', char);
@@ -612,16 +613,16 @@ function fillTradeInputsInPage(data) {
             if (supportsExecCommand) {
                 document.execCommand('insertText', false, char);
             } else if (typeof input.setRangeText === 'function') {
-                const {selectionStart = input.value.length, selectionEnd = input.value.length} = input;
+                const { selectionStart = input.value.length, selectionEnd = input.value.length } = input;
                 input.setRangeText(char, selectionStart, selectionEnd, 'end');
             } else {
                 input.value += char;
             }
-            input.dispatchEvent(new Event('input', {bubbles: true}));
+            input.dispatchEvent(new Event('input', { bubbles: true }));
             dispatchKeyboardEvent('keyup', char);
         }
 
-        input.dispatchEvent(new Event('change', {bubbles: true}));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
         return true;
     };
 
@@ -683,47 +684,88 @@ const scanAssetValues = () => {
 
 const PopupController = (() => {
     const init = () => {
-        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const tab = tabs && tabs.length ? tabs[0] : null;
             const isSupported = Boolean(tab && tab.url && matchesAllowedPage(tab.url));
             if (isSupported && tab) {
                 state.currentTabId = tab.id;
-                setVisibility({isSupported: true});
+                setVisibility({ isSupported: true });
                 scanAssetValues();
             } else {
-                setVisibility({isSupported: false});
+                setVisibility({ isSupported: false });
             }
         });
 
-        elements.form?.addEventListener('submit', handleSubmit);
+        elements.calculateButton?.addEventListener('click', handleCalculate);
+        elements.fillButton?.addEventListener('click', handleFill);
         elements.copyResultsButton?.addEventListener('click', handleCopyResults);
+        elements.textarea?.addEventListener('input', handleInputChanged);
+
+        // Initial state check
+        updateButtonStates();
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if (!state.currentTabId || !elements.textarea) {
-            return;
+    const updateButtonStates = () => {
+        const hasText = elements.textarea && elements.textarea.value.trim().length > 0;
+        const hasCalculation = !!state.lastCalculatedPayload;
+
+        if (elements.calculateButton) {
+            elements.calculateButton.disabled = !hasText;
         }
 
-        const text = elements.textarea.value;
-        if (!text) {
-            console.log('Signal Executor: nothing to submit.');
-            ResultRenderer.render(null);
-            return;
+        if (elements.fillButton) {
+            elements.fillButton.disabled = !hasCalculation;
         }
+
+        if (elements.copyResultsButton) {
+            elements.copyResultsButton.disabled = !hasCalculation;
+        }
+    };
+
+    const handleInputChanged = () => {
+        // If user changes text, invalidate previous calculation
+        if (state.lastCalculatedPayload) {
+            state.lastCalculatedPayload = null;
+            ResultRenderer.render(null);
+        }
+        updateButtonStates();
+    };
+
+    const handleCalculate = () => {
+        if (!elements.textarea) return;
+
+        const text = elements.textarea.value;
+        if (!text) return;
 
         const messageData = parseSignalMessage(text);
         const positionDetails = getPositionDetailsFromData(messageData, state.tradeContext.leverage);
-        const payload = {...messageData, ...(positionDetails || {})};
+
+        // Store for fill/copy actions
+        state.lastCalculatedPayload = { ...messageData, ...(positionDetails || {}) };
+
         ResultRenderer.render(positionDetails || null);
+
         if (!positionDetails) {
             console.warn('[Signal Executor] Unable to calculate position amount with the provided data');
+            state.lastCalculatedPayload = null; // Ensure we don't enable buttons on failure? 
+            // Or maybe we still allow filling partial data? 
+            // The prompt says "Disable... if user wasnt calculate", implying successful calculation?
+            // "impossible to calculate" usually means bad data.
+            // But let's assume if positionDetails is null, calculation failed.
         }
-        console.log('[Signal Executor] Parsed data:', payload);
+
+        updateButtonStates();
+        console.log('[Signal Executor] Calculated data:', state.lastCalculatedPayload);
+    };
+
+    const handleFill = () => {
+        if (!state.currentTabId || !state.lastCalculatedPayload) {
+            return;
+        }
 
         ChromeBridge.run(
             fillTradeInputsInPage,
-            [payload],
+            [state.lastCalculatedPayload],
             (results) => {
                 const wasFilled = Array.isArray(results) && results.some((result) => result && result.result);
                 if (!wasFilled) {
@@ -740,7 +782,7 @@ const PopupController = (() => {
         });
     };
 
-    return {init};
+    return { init };
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
