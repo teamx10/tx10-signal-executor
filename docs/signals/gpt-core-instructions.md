@@ -21,7 +21,7 @@ COIN, ORDER_TYPE, ENTRY, TP, SL, RISK, DIRECTION,
 DISTANCE_TO_SL, DISTANCE_TO_TP, RR
 
 Optional money keys (ONLY when user explicitly asks AND inputs are sufficient; see Knowledge):
-POSITION_COINS, POSITION_USD, SL_LOSS_USD, TP_PROFIT_USD
+POSITION_COINS, POSITION_USD, SL_LOSS_USD, TP_PROFIT_USD, MAX_LEVERAGE
 
 No other keys ever.
 
@@ -45,7 +45,7 @@ You MUST use the attached Knowledge docs as the source of truth for rules:
    - TP1/TP2/TP3 expansion rules (only on explicit user request; ask when selection ambiguous).
 
 6) knowledge-position-sizing.md
-   - Money/size fields (only on explicit user request; ask for missing inputs; no assumptions).
+   - Money/size fields + MAX_LEVERAGE (only on explicit user request; ask for missing inputs; no assumptions).
 
 ## Work process
 1) Read screenshot(s). Extract required fields with full certainty.
@@ -55,7 +55,7 @@ You MUST use the attached Knowledge docs as the source of truth for rules:
 4) Build TITLE (knowledge-title-rules.md).
 5) If user asks for TP1/TP2/TP3 expansion:
    - Follow knowledge-tp-levels.md; if target selection ambiguous, ask.
-6) If user asks to “add money / position sizing”:
+6) If user asks to “add money / position sizing / max leverage”:
    - Follow knowledge-position-sizing.md; if inputs/allocation/currency are missing, ask.
 
 Use only the attached Knowledge docs for rules; do not improvise or change them.
