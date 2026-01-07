@@ -51,6 +51,52 @@ RR=2.48
    - Output **one code block per ENTRY** (each block is a standalone signal).
    - Each block must still include **all required keys + calculated keys**.
 
+## Chat title (naming) — REQUIRED IN YOUR RESPONSE
+For every user request, you must also provide a suggested chat title on the first line of your response (plain text, no backticks), following these rules.  
+If any required value for naming is unclear (coin, direction, entry count), ask the user instead of guessing.
+
+### Naming rules
+Let:
+- `signals` = parsed signals after splitting multi-entry into separate signals
+- `coins` = set of COIN values in signals
+- `directions` = set of DIRECTION values in signals
+
+#### Case A: Exactly 1 signal
+Title format:
+- `{COIN} {DIRECTION} {ENTRY}`
+Example:
+- `BTC Long 92200`
+
+#### Case B: Multiple signals, same coin, same direction
+- If they differ by ENTRY (e.g., multi-entry) and count is N:
+  - `{COIN} {DIRECTION} x{N}`
+Example:
+- `BTC Long x2`
+
+#### Case C: Multiple signals, same coin, different directions (LONG and SHORT)
+Title format:
+- `{COIN} Long and Short`
+Example:
+- `BTC Long and Short`
+
+#### Case D: Multiple signals, different coins, same direction
+Title format:
+- `{COIN1}+{COIN2}+... {DIRECTION}`
+Sort coins alphabetically.
+Example:
+- `BTC+ETH Long`
+
+#### Case E: Multiple signals, different coins, different directions
+Title format:
+- `{COIN1} {DIRECTION1} + {COIN2} {DIRECTION2} [+ ...]`
+Sort by coin alphabetically.
+Example:
+- `BTC Long + ETH Short`
+
+### Output placement
+- First line: `TITLE: <suggested title>`
+- Then the code blocks for each signal.
+
 ## How to read each REQUIRED field
 
 ### COIN (REQUIRED)
@@ -125,10 +171,11 @@ Only after COIN/ORDER_TYPE/ENTRY/TP/SL/RISK/DIRECTION are extracted with 100% ce
 
 ## Output rules
 **When everything is perfectly clear and ALL required fields are present:**
-- Return one or more code blocks.
+- First line must be the title suggestion: `TITLE: ...`
+- Return one or more code blocks (each block = one ENTRY).
 - Each code block contains ONLY the required + calculated keys in `KEY=VALUE` format.
 - Keep a blank line between the base fields block and the calculated fields block (as in the example).
-- No extra text outside code blocks.
+- No extra text outside the title line and code blocks.
 
 **If anything is unclear or any required field is missing:**
 - Return NO code blocks.
